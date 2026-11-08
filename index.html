@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ecebe5">
+  <meta name="description" content="设计师的未来——一个关于创造力、系统思维与人工智能协作的设计师品牌网站。">
+  <title>设计师的未来｜FUTURE / DESIGN</title>
+  <style>
+    :root {
+      --paper: #ecebe5;
+      --ink: #111311;
+      --blue: #1646ff;
+      --lime: #d9ff43;
+      --line: rgba(17, 19, 17, 0.2);
+      --muted: #5e615b;
+      --radius: 22px;
+      --pad: clamp(20px, 4vw, 64px);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 82% 3%, rgba(22, 70, 255, 0.11), transparent 24rem),
+        var(--paper);
+      font-family: "Helvetica Neue", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    ::selection {
+      color: var(--paper);
+      background: var(--blue);
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.16;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+
+    .site-nav {
+      position: fixed;
+      z-index: 30;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px var(--pad);
+      border-bottom: 1px solid transparent;
+      transition: background 240ms ease, border-color 240ms ease, backdrop-filter 240ms ease;
+    }
+
+    .site-nav.scrolled {
+      border-color: var(--line);
+      background: rgba(236, 235, 229, 0.82);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      color: white;
+      background: var(--ink);
+      border-radius: 50%;
+      font-size: 12px;
+      letter-spacing: -0.05em;
+      transform: rotate(-8deg);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2.6vw, 38px);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links a { transition: color 180ms ease; }
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .nav-cta:hover,
+    .button:hover {
+      color: var(--ink);
+      background: var(--lime);
+      transform: translateY(-2px);
+    }
+
+    main { position: relative; }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+      align-items: end;
+      gap: clamp(32px, 6vw, 92px);
+      min-height: 100svh;
+      padding: clamp(130px, 18vh, 210px) var(--pad) clamp(52px, 8vh, 90px);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 16%;
+      right: -10vw;
+      width: min(48vw, 700px);
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      box-shadow: 0 0 0 7vw rgba(22, 70, 255, 0.045), 0 0 0 14vw rgba(22, 70, 255, 0.025);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 26px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--blue);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(22, 70, 255, 0.12);
+    }
+
+    h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: clamp(72px, 11.5vw, 178px);
+      font-weight: 900;
+      letter-spacing: -0.095em;
+      line-height: 0.78;
+    }
+
+    h1 span {
+      display: block;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--ink);
+      letter-spacing: -0.08em;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding-bottom: 4px;
+    }
+
+    .hero-copy p {
+      max-width: 410px;
+      margin: 0 0 32px;
+      font-size: clamp(18px, 2vw, 27px);
+      line-height: 1.45;
+      letter-spacing: -0.035em;
+    }
+
+    .hero-copy strong { color: var(--blue); }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      margin-top: 54px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+      text-transform: uppercase;
+    }
+
+    .hero-meta span:last-child { text-align: right; }
+
+    .ticker {
+      display: flex;
+      overflow: hidden;
+      color: white;
+      background: var(--blue);
+      transform: rotate(-1deg) scale(1.01);
+      transform-origin: center;
+    }
+
+    .ticker-track {
+      display: flex;
+      flex: none;
+      min-width: max-content;
+      animation: ticker 25s linear infinite;
+    }
+
+    .ticker span {
+      display: inline-flex;
+      align-items: center;
+      gap: 26px;
+      padding: 16px 24px;
+      font-size: clamp(15px, 1.8vw, 24px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .ticker span::after {
+      content: "✦";
+      color: var(--lime);
+    }
+
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    .section {
+      padding: clamp(90px, 13vw, 190px) var(--pad);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+      gap: clamp(30px, 6vw, 100px);
+      align-items: start;
+      margin-bottom: clamp(64px, 9vw, 130px);
+    }
+
+    .section-number {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+    }
+
+    .section-number::after {
+      content: "";
+      display: block;
+      width: 48px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h2 {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(48px, 7.4vw, 112px);
+      font-weight: 900;
+      letter-spacing: -0.075em;
+      line-height: 0.94;
+    }
+
+    h2 em {
+      color: var(--blue);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--ink);
+      border-left: 1px solid var(--ink);
+    }
+
+    .role-card {
+      position: relative;
+      min-height: 400px;
+      padding: 28px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      overflow: hidden;
+      transition: color 300ms ease, background 300ms ease;
+    }
+
+    .role-card::before {
+      content: "";
+      position: absolute;
+      inset: auto 20px 20px auto;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: var(--blue);
+      transition: width 450ms cubic-bezier(.2,.8,.2,1), height 450ms cubic-bezier(.2,.8,.2,1);
+      transform: translate(50%, 50%);
+    }
+
+    .role-card:hover { color: white; }
+    .role-card:hover::before { width: 760px; height: 760px; }
+
+    .role-top,
+    .role-bottom {
+      position: relative;
+      z-index: 1;
+    }
+
+    .role-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .role-index {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      font-style: italic;
+    }
+
+    .role-glyph {
+      display: grid;
+      place-items: center;
+      width: 50px;
+      aspect-ratio: 1;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      font-size: 22px;
+    }
+
+    .role-bottom {
+      position: absolute;
+      right: 28px;
+      bottom: 28px;
+      left: 28px;
+    }
+
+    .role-card h3 {
+      margin: 0 0 14px;
+      font-size: clamp(25px, 2.4vw, 38px);
+      letter-spacing: -0.05em;
+    }
+
+    .role-card p {
+      margin: 0;
+      max-width: 280px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+      transition: color 300ms ease;
+    }
+
+    .role-card:hover p { color: rgba(255,255,255,0.72); }
+
+    .system {
+      color: white;
+      background: var(--ink);
+    }
+
+    .system .section-number { color: rgba(255,255,255,0.55); }
+    .system h2 em { color: var(--lime); }
+
+    .capability-list { border-top: 1px solid rgba(255,255,255,0.25); }
+
+    .capability {
+      display: grid;
+      grid-template-columns: 90px minmax(200px, 0.8fr) minmax(260px, 1.2fr) 42px;
+      gap: clamp(18px, 4vw, 70px);
+      align-items: center;
+      padding: 27px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      transition: padding 240ms ease, color 240ms ease;
+    }
+
+    .capability:hover {
+      color: var(--lime);
+      padding-right: 12px;
+      padding-left: 12px;
+    }
+
+    .capability .cap-num {
+      color: rgba(255,255,255,0.45);
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: italic;
+    }
+
+    .capability h3 {
+      margin: 0;
+      font-size: clamp(27px, 3.4vw, 52px);
+      letter-spacing: -0.05em;
+    }
+
+    .capability p {
+      margin: 0;
+      color: rgba(255,255,255,0.58);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .cap-arrow {
+      font-size: 26px;
+      text-align: right;
+      transition: transform 240ms ease;
+    }
+
+    .capability:hover .cap-arrow { transform: translate(6px, -6px); }
+
+    .method-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.6fr);
+      gap: clamp(50px, 9vw, 140px);
+      align-items: start;
+    }
+
+    .method-title {
+      position: sticky;
+      top: 120px;
+    }
+
+    .method-title h2 { font-size: clamp(58px, 8vw, 120px); }
+
+    .method-title p {
+      max-width: 480px;
+      margin: 32px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .steps { counter-reset: step; }
+
+    .step {
+      counter-increment: step;
+      padding: 34px 0 58px;
+      border-top: 1px solid var(--ink);
+    }
+
+    .step::before {
+      content: "0" counter(step);
+      display: block;
+      margin-bottom: 52px;
+      color: var(--blue);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    .step h3 {
+      margin: 0 0 16px;
+      font-size: clamp(34px, 4vw, 58px);
+      letter-spacing: -0.055em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .manifesto {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 86svh;
+      padding: 100px var(--pad);
+      color: white;
+      background: var(--blue);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .manifesto::before,
+    .manifesto::after {
+      content: "";
+      position: absolute;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+    }
+
+    .manifesto::before { width: 65vw; aspect-ratio: 1; }
+    .manifesto::after { width: 45vw; aspect-ratio: 1; }
+
+    .manifesto-inner { position: relative; z-index: 1; }
+
+    .manifesto .eyebrow {
+      justify-content: center;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .manifesto .eyebrow::before { background: var(--lime); box-shadow: none; }
+
+    .manifesto blockquote {
+      max-width: 1200px;
+      margin: 0 auto;
+      font-size: clamp(45px, 7.7vw, 116px);
+      font-weight: 900;
+      letter-spacing: -0.075em;
+      line-height: 0.98;
+    }
+
+    .manifesto blockquote em {
+      color: var(--lime);
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
+    .manifesto-note {
+      max-width: 480px;
+      margin: 42px auto 0;
+      color: rgba(255,255,255,0.72);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    footer {
+      color: white;
+      background: var(--ink);
+      padding: clamp(80px, 12vw, 160px) var(--pad) 32px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(240px, 0.6fr);
+      gap: 60px;
+      align-items: end;
+    }
+
+    .footer-title {
+      margin: 0;
+      font-size: clamp(64px, 11vw, 170px);
+      font-weight: 900;
+      letter-spacing: -0.095em;
+      line-height: 0.8;
+    }
+
+    .footer-title span { color: var(--lime); }
+
+    .footer-action p {
+      margin: 0 0 28px;
+      color: rgba(255,255,255,0.58);
+      line-height: 1.7;
+    }
+
+    .footer-action .button {
+      color: var(--ink);
+      background: var(--lime);
+      border-color: var(--lime);
+    }
+
+    .footer-action .button:hover { color: white; background: var(--blue); border-color: var(--blue); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 100px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.45);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 700ms cubic-bezier(.2,.8,.2,1), transform 700ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; align-items: start; }
+      .hero-copy { max-width: 600px; }
+      .hero-meta { margin-top: 26px; }
+      .roles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .capability { grid-template-columns: 55px minmax(180px, 0.7fr) minmax(230px, 1.3fr) 30px; gap: 20px; }
+      .method-wrap { grid-template-columns: 1fr; }
+      .method-title { position: static; }
+      .steps { max-width: 680px; margin-left: auto; }
+    }
+
+    @media (max-width: 720px) {
+      :root { --pad: 20px; }
+      .site-nav { padding-top: 14px; padding-bottom: 14px; }
+      .brand-text { display: none; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .nav-cta { min-height: 40px; padding: 0 15px; }
+      .hero { min-height: auto; padding-top: 145px; }
+      h1 { font-size: clamp(66px, 22vw, 104px); line-height: 0.82; }
+      h1 span { -webkit-text-stroke-width: 1.4px; }
+      .hero-copy p { font-size: 19px; }
+      .section-head { grid-template-columns: 1fr; margin-bottom: 58px; }
+      .section-number { margin-top: 0; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .role-card { min-height: 320px; }
+      .capability { grid-template-columns: 42px 1fr 28px; padding: 22px 0; }
+      .capability p { grid-column: 2 / 4; }
+      .method-wrap { gap: 70px; }
+      .manifesto { min-height: 76svh; }
+      .manifesto::before { width: 130vw; }
+      .manifesto::after { width: 88vw; }
+      .footer-grid { grid-template-columns: 1fr; align-items: start; }
+      .footer-bottom { flex-direction: column; margin-top: 70px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <nav class="site-nav" aria-label="主导航">
+    <a class="brand" href="#top" aria-label="返回首页">
+      <span class="brand-mark">F/D</span>
+      <span class="brand-text">FUTURE / DESIGN</span>
+    </a>
+    <div class="nav-links">
+      <a href="#roles">新角色</a>
+      <a href="#capabilities">新能力</a>
+      <a href="#method">新方法</a>
+      <a class="nav-cta" href="#contact">开启未来 ↗</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow reveal">Designer Brand / Future Manifesto</p>
+        <h1 class="reveal">设计师的<span>未来</span></h1>
+      </div>
+      <div class="hero-copy reveal">
+        <p>未来不缺少生成图像的工具，真正稀缺的是<strong>定义问题、建立秩序、赋予意义</strong>的人。</p>
+        <a class="button" href="#roles">探索设计新角色 <span aria-hidden="true">↓</span></a>
+        <div class="hero-meta">
+          <span>Creative Direction<br>× System Thinking</span>
+          <span>Human Insight<br>× Artificial Intelligence</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>设计不止于形式</span><span>DESIGN BEYOND FORM</span><span>创造新的可能</span><span>MAKE POSSIBILITY VISIBLE</span>
+        <span>设计不止于形式</span><span>DESIGN BEYOND FORM</span><span>创造新的可能</span><span>MAKE POSSIBILITY VISIBLE</span>
+      </div>
+    </div>
+
+    <section class="section" id="roles">
+      <div class="section-head reveal">
+        <span class="section-number">01 / NEW ROLES</span>
+        <h2>从执行视觉，<br>到<em>定义体验</em></h2>
+      </div>
+
+      <div class="roles-grid reveal">
+        <article class="role-card">
+          <div class="role-top"><span class="role-index">Role 01</span><span class="role-glyph">↗</span></div>
+          <div class="role-bottom"><h3>策略译者</h3><p>把复杂的商业目标，转译为人能够理解、感受并愿意参与的体验。</p></div>
+        </article>
+        <article class="role-card">
+          <div class="role-top"><span class="role-index">Role 02</span><span class="role-glyph">⌘</span></div>
+          <div class="role-bottom"><h3>系统构建者</h3><p>不只交付单一画面，更建立可以生长、协同与持续演进的设计系统。</p></div>
+        </article>
+        <article class="role-card">
+          <div class="role-top"><span class="role-index">Role 03</span><span class="role-glyph">✦</span></div>
+          <div class="role-bottom"><h3>AI 导演</h3><p>把人工智能变成创意团队，用判断力设定方向，用审美完成最后选择。</p></div>
+        </article>
+        <article class="role-card">
+          <div class="role-top"><span class="role-index">Role 04</span><span class="role-glyph">◎</span></div>
+          <div class="role-bottom"><h3>文化编辑</h3><p>从信息噪声中筛选价值，让品牌拥有立场、语气与值得被记住的意义。</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section system" id="capabilities">
+      <div class="section-head reveal">
+        <span class="section-number">02 / NEW CAPABILITIES</span>
+        <h2>工具会迭代，<br><em>判断力</em>才是护城河</h2>
+      </div>
+
+      <div class="capability-list reveal">
+        <article class="capability"><span class="cap-num">01</span><h3>感知力</h3><p>看见尚未被说出的需求，发现数据与语言之外的真实感受。</p><span class="cap-arrow">↗</span></article>
+        <article class="capability"><span class="cap-num">02</span><h3>叙事力</h3><p>把零散信息组织为鲜明观点，让体验拥有情绪、节奏与记忆点。</p><span class="cap-arrow">↗</span></article>
+        <article class="capability"><span class="cap-num">03</span><h3>系统力</h3><p>在品牌、产品、内容与技术之间建立一致且可扩展的规则。</p><span class="cap-arrow">↗</span></article>
+        <article class="capability"><span class="cap-num">04</span><h3>协同力</h3><p>与不同专业、不同智能共同创造，把个人灵感变成团队成果。</p><span class="cap-arrow">↗</span></article>
+        <article class="capability"><span class="cap-num">05</span><h3>取舍力</h3><p>在无限生成中做出有限而准确的选择，为结果承担审美责任。</p><span class="cap-arrow">↗</span></article>
+      </div>
+    </section>
+
+    <section class="section" id="method">
+      <div class="method-wrap">
+        <div class="method-title reveal">
+          <span class="section-number">03 / NEW METHOD</span>
+          <h2>未来设计<br><em>闭环</em></h2>
+          <p>未来的工作流不再是一条直线。它在人类洞察、机器生成与真实反馈之间持续循环。</p>
+        </div>
+        <div class="steps reveal">
+          <article class="step"><h3>察觉</h3><p>从人出发，理解情境、矛盾与真正值得解决的问题。</p></article>
+          <article class="step"><h3>构想</h3><p>打开可能性，不急于寻找唯一答案，先建立足够丰富的方向。</p></article>
+          <article class="step"><h3>协同</h3><p>调度人与 AI 的不同优势，让速度服务于思考，让生成服从于意图。</p></article>
+          <article class="step"><h3>迭代</h3><p>让作品进入真实世界，从反馈中校准判断，形成下一轮创造。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="manifesto-inner reveal">
+        <p class="eyebrow">The Future is a Design Material</p>
+        <blockquote>设计师不会被未来定义，<br>设计师将<em>参与定义未来。</em></blockquote>
+        <p class="manifesto-note">技术提供新的尺度，想象力决定我们去往哪里。保持敏锐，持续提问，把未来当作一种可以被塑造的材料。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="footer-grid">
+      <p class="footer-title reveal">MAKE<br><span>NEXT.</span></p>
+      <div class="footer-action reveal">
+        <p>准备好创造下一个品牌、产品或体验？<br>从一个值得被解决的问题开始。</p>
+        <a class="button" href="mailto:yourname@example.com">联系合作 ↗</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>FUTURE / DESIGN — 未来设计品牌</span>
+      <span>请在发布前替换联系邮箱</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.querySelector('.site-nav');
+    const reveals = document.querySelectorAll('.reveal');
+
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      reveals.forEach((element) => observer.observe(element));
+    } else {
+      reveals.forEach((element) => element.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>
